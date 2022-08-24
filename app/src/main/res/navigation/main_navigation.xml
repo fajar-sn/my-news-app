@@ -9,5 +9,22 @@
         android:id="@+id/categoryFragment"
         android:name="com.fajarsn.mynewsapp.ui.category.CategoryFragment"
         android:label="fragment_category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_recycler_view" >
+        <action
+            android:id="@+id/action_categoryFragment_to_sourceFragment"
+            app:destination="@id/sourceFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/sourceFragment"
+        android:name="com.fajarsn.mynewsapp.ui.source.SourceFragment"
+        android:label="SourceFragment"
+        tools:layout="@layout/fragment_recycler_view" >
+        <argument
+            android:name="category"
+            app:argType="com.fajarsn.mynewsapp.data.entity.NewsCategory" />
+    </fragment>
 </navigation>

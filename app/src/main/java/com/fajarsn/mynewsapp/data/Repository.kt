@@ -6,12 +6,6 @@ import com.fajarsn.mynewsapp.BuildConfig
 import java.net.ConnectException
 import java.net.UnknownHostException
 
-sealed class Result private constructor() {
-    data class Success<out T>(val data: T) : Result()
-    data class Error(val error: String) : Result()
-    object Loading : Result()
-}
-
 class Repository private constructor(private val service: ApiService) {
     suspend fun getSources(category: String, liveData: MutableLiveData<Result>) = try {
         val response = service.getSources(category)

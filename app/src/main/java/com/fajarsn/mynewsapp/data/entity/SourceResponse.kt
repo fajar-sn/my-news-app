@@ -1,12 +1,13 @@
 package com.fajarsn.mynewsapp.data.entity
 
+import com.fajarsn.mynewsapp.data.BaseResponse
 import com.google.gson.annotations.SerializedName
 
 data class SourceListResponse(
 
 	@field:SerializedName("sources")
 	val sources: List<SourceResponse>
-)
+) : BaseResponse()
 
 data class SourceResponse(
 

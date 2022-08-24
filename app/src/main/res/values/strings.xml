@@ -21,4 +21,17 @@
         <item>@drawable/ic_sports</item>
         <item>@drawable/ic_technology</item>
     </integer-array>
+
+    <string-array name="category_value">
+        <item>business</item>
+        <item>entertainment</item>
+        <item>general</item>
+        <item>health</item>
+        <item>science</item>
+        <item>sports</item>
+        <item>technology</item>
+    </string-array>
+
+    <string name="retry">Retry</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

@@ -19,7 +19,7 @@
             android:name="API_KEY"
             android:value="${API_KEY}" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.helper.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
