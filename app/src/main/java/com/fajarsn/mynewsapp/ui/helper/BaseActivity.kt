@@ -30,8 +30,8 @@ abstract class BaseActivity : AppCompatActivity() {
     protected abstract fun setupAction()
 
     protected fun initActivity() {
-        setupView()
         setupViewModel()
+        setupView()
         setupAction()
     }
 

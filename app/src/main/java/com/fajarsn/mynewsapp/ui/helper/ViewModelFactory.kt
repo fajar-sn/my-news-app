@@ -12,6 +12,8 @@ class ViewModelFactory private constructor(private val repository: Repository) :
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SourceViewModel::class.java))
             return SourceViewModel(repository) as T
+        if (modelClass.isAssignableFrom(ArticleViewModel::class.java))
+            return ArticleViewModel(repository) as T
 
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }

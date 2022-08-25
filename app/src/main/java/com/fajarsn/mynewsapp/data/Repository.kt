@@ -2,6 +2,9 @@ package com.fajarsn.mynewsapp.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.liveData
 import com.fajarsn.mynewsapp.BuildConfig
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -14,17 +17,10 @@ class Repository private constructor(private val service: ApiService) {
         catchError(exception, liveData)
     }
 
-    suspend fun getArticles(
-        sources: String,
-        pageNumber: Int,
-        liveData: MutableLiveData<Result>,
-        query: String = "",
-    ) = try {
-        val response = service.getArticles(sources, pageNumber, query = query)
-        liveData.value = Result.Success(response)
-    } catch (exception: Exception) {
-        catchError(exception, liveData)
-    }
+    fun getArticles(sources: String, query: String = "") = Pager(
+        config = PagingConfig(pageSize = 10),
+        pagingSourceFactory = { ArticlePagingSource(service, sources, query) }
+    ).liveData
 
     private fun catchError(exception: Exception, liveData: MutableLiveData<Result>) =
         when (exception) {

@@ -9,12 +9,12 @@ interface ApiService {
     @GET("top-headlines/sources")
     suspend fun getSources(@Query("category") category: String) : SourceResponse
 
-    @GET("")
+    @GET("everything")
     suspend fun getArticles(
         @Query("sources") sources: String,
         @Query("page") page: Int,
-        @Query("searchIn") searchIn: String = "title",
-        @Query("pageSize") pageSize: Int = 20,
         @Query("q") query: String = "",
+        @Query("pageSize") pageSize: Int = 20,
+        @Query("searchIn") searchIn: String = "title",
     ) : ArticleResponse
 }

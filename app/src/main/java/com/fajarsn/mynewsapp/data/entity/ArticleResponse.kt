@@ -1,7 +1,9 @@
 package com.fajarsn.mynewsapp.data.entity
 
+import android.os.Parcelable
 import com.fajarsn.mynewsapp.data.BaseResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class ArticleResponse(
 
@@ -9,6 +11,7 @@ data class ArticleResponse(
 	val articles: List<Article>
 ) : BaseResponse()
 
+@Parcelize
 data class Article(
 
 	@field:SerializedName("publishedAt")
@@ -23,9 +26,6 @@ data class Article(
 	@field:SerializedName("description")
 	val description: String,
 
-//	@field:SerializedName("source")
-//	val source: Source,
-
 	@field:SerializedName("title")
 	val title: String,
 
@@ -34,13 +34,4 @@ data class Article(
 
 	@field:SerializedName("content")
 	val content: String
-)
-
-//data class Source(
-//
-//	@field:SerializedName("name")
-//	val name: String,
-//
-//	@field:SerializedName("id")
-//	val id: String
-//)
+) : Parcelable

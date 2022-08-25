@@ -36,4 +36,6 @@
     <string name="something_went_wrong">Something went wrong</string>
     <string name="search">Search</string>
     <string name="source_search_hint">Enter sources</string>
+    <string name="article_image">Article Image</string>
+    <string name="article_search_hint">Enter article</string>
 </resources>

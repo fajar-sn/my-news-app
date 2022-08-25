@@ -2,6 +2,7 @@ package com.fajarsn.mynewsapp.ui.source
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.Menu
 import androidx.activity.viewModels
@@ -14,6 +15,7 @@ import com.fajarsn.mynewsapp.data.entity.NewsCategory
 import com.fajarsn.mynewsapp.data.entity.SourceItem
 import com.fajarsn.mynewsapp.data.entity.SourceResponse
 import com.fajarsn.mynewsapp.databinding.LayoutRecyclerViewBinding
+import com.fajarsn.mynewsapp.ui.article.ArticleActivity
 import com.fajarsn.mynewsapp.ui.helper.BaseAdapter
 import com.fajarsn.mynewsapp.ui.helper.RecyclerViewActivity
 import com.fajarsn.mynewsapp.ui.helper.SourceViewModel
@@ -67,14 +69,15 @@ class SourceActivity : RecyclerViewActivity<SourceAdapter.ListViewHolder, Source
         recyclerView = binding.recyclerView
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val viewModel = viewModel as SourceViewModel
+        viewModel.getSources(category.value)
+        viewModel.result.observe(this) { observeResultLiveData(it, errorCallback, successCallback) }
     }
 
     override fun setupViewModel() {
         val factory = ViewModelFactory.getInstance(this)
         val viewModel: SourceViewModel by viewModels { factory }
         this.viewModel = viewModel
-        viewModel.getSources(category.value)
-        viewModel.result.observe(this) { observeResultLiveData(it, errorCallback, successCallback) }
     }
 
     override fun setupAction() {}
@@ -84,7 +87,9 @@ class SourceActivity : RecyclerViewActivity<SourceAdapter.ListViewHolder, Source
 
         adapter.setOnItemClickCallback(object : BaseAdapter.OnItemClickCallBack<SourceItem> {
             override fun onItemClicked(data: SourceItem) {
-                Log.e("SourceFragment", "$data")
+                val intent = Intent(this@SourceActivity, ArticleActivity::class.java)
+                intent.putExtra(ArticleActivity.EXTRA_SOURCES, data)
+                startActivity(intent)
             }
         })
 
