@@ -1,3 +1,41 @@
 <resources>
     <string name="app_name">My News App</string>
+    <string name="category_icon">Category Icon</string>
+
+    <string-array name="category_name">
+        <item>Business</item>
+        <item>Entertainment</item>
+        <item>General</item>
+        <item>Health</item>
+        <item>Science</item>
+        <item>Sports</item>
+        <item>Technology</item>
+    </string-array>
+
+    <integer-array name="category_photo">
+        <item>@drawable/ic_business</item>
+        <item>@drawable/ic_entertainment</item>
+        <item>@drawable/ic_general</item>
+        <item>@drawable/ic_health</item>
+        <item>@drawable/ic_science</item>
+        <item>@drawable/ic_sports</item>
+        <item>@drawable/ic_technology</item>
+    </integer-array>
+
+    <string-array name="category_value">
+        <item>business</item>
+        <item>entertainment</item>
+        <item>general</item>
+        <item>health</item>
+        <item>science</item>
+        <item>sports</item>
+        <item>technology</item>
+    </string-array>
+
+    <string name="retry">Retry</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="search">Search</string>
+    <string name="source_search_hint">Enter sources</string>
+    <string name="article_image">Article Image</string>
+    <string name="article_search_hint">Enter article</string>
 </resources>
