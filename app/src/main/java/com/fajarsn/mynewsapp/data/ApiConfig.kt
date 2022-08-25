@@ -10,7 +10,7 @@ import com.fajarsn.mynewsapp.BuildConfig
 import okhttp3.Interceptor
 
 object ApiConfig {
-    private const val baseUrl = "https://newsapi.org/v2/top-headlines/"
+    private const val baseUrl = "https://newsapi.org/v2/"
     private lateinit var apiKey: String
 
     fun getApiService(context: Context): ApiService {

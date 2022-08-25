@@ -1,15 +1,19 @@
 package com.fajarsn.mynewsapp.ui.category
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fajarsn.mynewsapp.R
 import com.fajarsn.mynewsapp.data.entity.NewsCategory
-import com.fajarsn.mynewsapp.databinding.FragmentRecyclerViewBinding
+import com.fajarsn.mynewsapp.databinding.LayoutRecyclerViewBinding
 import com.fajarsn.mynewsapp.ui.helper.BaseAdapter
-import com.fajarsn.mynewsapp.ui.helper.RecyclerViewFragment
+import com.fajarsn.mynewsapp.ui.helper.RecyclerViewActivity
+import com.fajarsn.mynewsapp.ui.source.SourceActivity
 
-class CategoryFragment : RecyclerViewFragment<CategoryAdapter.ListViewHolder, NewsCategory>() {
+class CategoryActivity : RecyclerViewActivity<CategoryAdapter.ListViewHolder, NewsCategory>() {
     private val categories: ArrayList<NewsCategory>
         @SuppressLint("Recycle")
         get() {
@@ -27,21 +31,22 @@ class CategoryFragment : RecyclerViewFragment<CategoryAdapter.ListViewHolder, Ne
         }
 
     override fun setupView() {
-        val recyclerView = (binding as FragmentRecyclerViewBinding).gridRecyclerView
+        val recyclerView = (binding as LayoutRecyclerViewBinding).recyclerView
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
         adapter = CategoryAdapter(categories)
         recyclerView.adapter = adapter
     }
 
-    override fun setupAction() =
+    override fun setupAction() {
         adapter.setOnItemClickCallback(object : BaseAdapter.OnItemClickCallBack<NewsCategory> {
             override fun onItemClicked(data: NewsCategory) {
-                val toSourceFragment =
-                    CategoryFragmentDirections.actionCategoryFragmentToSourceFragment(data)
-                view?.findNavController()?.navigate(toSourceFragment)
+                val intent = Intent(this@CategoryActivity, SourceActivity::class.java)
+                intent.putExtra(SourceActivity.EXTRA_CATEGORY, data)
+                startActivity(intent)
             }
         })
+    }
 
     override fun setupViewModel() {}
 }

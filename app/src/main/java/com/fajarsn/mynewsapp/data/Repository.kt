@@ -14,6 +14,18 @@ class Repository private constructor(private val service: ApiService) {
         catchError(exception, liveData)
     }
 
+    suspend fun getArticles(
+        sources: String,
+        pageNumber: Int,
+        liveData: MutableLiveData<Result>,
+        query: String = "",
+    ) = try {
+        val response = service.getArticles(sources, pageNumber, query = query)
+        liveData.value = Result.Success(response)
+    } catch (exception: Exception) {
+        catchError(exception, liveData)
+    }
+
     private fun catchError(exception: Exception, liveData: MutableLiveData<Result>) =
         when (exception) {
             is UnknownHostException -> liveData.value =

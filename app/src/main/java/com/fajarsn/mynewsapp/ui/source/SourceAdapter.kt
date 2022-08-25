@@ -3,12 +3,12 @@ package com.fajarsn.mynewsapp.ui.source
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.fajarsn.mynewsapp.data.entity.SourceResponse
+import com.fajarsn.mynewsapp.data.entity.SourceItem
 import com.fajarsn.mynewsapp.databinding.ItemSourceBinding
 import com.fajarsn.mynewsapp.ui.helper.BaseAdapter
 
-class SourceAdapter(sources: List<SourceResponse>) :
-    BaseAdapter<SourceAdapter.ListViewHolder, SourceResponse>(sources) {
+class SourceAdapter(sources: List<SourceItem>) :
+    BaseAdapter<SourceAdapter.ListViewHolder, SourceItem>(sources) {
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val source = list[position]
         val binding = holder.binding

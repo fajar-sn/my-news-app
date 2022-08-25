@@ -1,20 +1,19 @@
 package com.fajarsn.mynewsapp.ui.helper
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ProgressBar
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.fajarsn.mynewsapp.data.BaseResponse
 import com.fajarsn.mynewsapp.data.Result
-import com.fajarsn.mynewsapp.databinding.FragmentRecyclerViewBinding
 import com.fajarsn.mynewsapp.databinding.LayoutErrorBinding
+import com.fajarsn.mynewsapp.databinding.LayoutRecyclerViewBinding
 
-abstract class BaseFragment : Fragment() {
+@Suppress("UNCHECKED_CAST")
+abstract class BaseActivity : AppCompatActivity() {
     protected var viewBinding: ViewBinding? = null
     protected val binding get() = viewBinding!!
     protected lateinit var viewModel: ViewModel
@@ -26,16 +25,15 @@ abstract class BaseFragment : Fragment() {
         viewBinding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    protected abstract fun setupView()
+    protected abstract fun setupViewModel()
+    protected abstract fun setupAction()
+
+    protected fun initActivity() {
         setupView()
         setupViewModel()
         setupAction()
     }
-
-    protected abstract fun setupView()
-    protected abstract fun setupViewModel()
-    protected abstract fun setupAction()
 
     protected fun <T : BaseResponse> observeResultLiveData(
         result: Result?,
@@ -64,14 +62,13 @@ abstract class BaseFragment : Fragment() {
     }
 }
 
-abstract class RecyclerViewFragment<VH : RecyclerView.ViewHolder, T> : BaseFragment() {
+abstract class RecyclerViewActivity<VH : RecyclerView.ViewHolder, T> : BaseActivity() {
     protected lateinit var adapter: BaseAdapter<VH, T>
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        viewBinding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewBinding = LayoutRecyclerViewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initActivity()
     }
 }
