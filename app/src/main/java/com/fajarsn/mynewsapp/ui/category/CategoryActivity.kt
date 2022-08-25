@@ -2,9 +2,6 @@ package com.fajarsn.mynewsapp.ui.category
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fajarsn.mynewsapp.R
 import com.fajarsn.mynewsapp.data.entity.NewsCategory

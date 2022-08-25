@@ -1,10 +1,14 @@
 package com.fajarsn.mynewsapp.ui.source
 
-import android.os.Bundle
+import android.app.SearchManager
+import android.content.Context
 import android.util.Log
+import android.view.Menu
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fajarsn.mynewsapp.R
 import com.fajarsn.mynewsapp.data.Result
 import com.fajarsn.mynewsapp.data.entity.NewsCategory
 import com.fajarsn.mynewsapp.data.entity.SourceItem
@@ -18,20 +22,40 @@ import com.fajarsn.mynewsapp.ui.helper.ViewModelFactory
 class SourceActivity : RecyclerViewActivity<SourceAdapter.ListViewHolder, SourceItem>() {
     private lateinit var category: NewsCategory
     private lateinit var recyclerView: RecyclerView
+    private var sources: List<SourceItem> = listOf()
 
     private val errorCallback: () -> Unit =
         { (viewModel as SourceViewModel).getSources(category.value) }
 
     private val successCallback: (Result.Success<SourceResponse>) -> Unit = { result ->
-        adapter = SourceAdapter(result.data.sources)
+        sources = result.data.sources
+        setRecyclerViewAdapter(sources)
+    }
 
-        adapter.setOnItemClickCallback(object : BaseAdapter.OnItemClickCallBack<SourceItem> {
-            override fun onItemClicked(data: SourceItem) {
-                Log.e("SourceFragment", "$data")
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_search, menu)
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.queryHint = resources.getString(R.string.source_search_hint)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val filteredSources =
+                    sources.filter { it.name.lowercase().contains(query?.lowercase() ?: "") }
+
+                searchView.clearFocus()
+                setRecyclerViewAdapter(filteredSources)
+                return sources.isNotEmpty()
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText == null || newText.isNotBlank()) setRecyclerViewAdapter(sources)
+                return sources.isNotEmpty()
             }
         })
 
-        recyclerView.adapter = adapter
+        return true
     }
 
     override fun setupView() {
@@ -54,6 +78,18 @@ class SourceActivity : RecyclerViewActivity<SourceAdapter.ListViewHolder, Source
     }
 
     override fun setupAction() {}
+
+    private fun setRecyclerViewAdapter(sources: List<SourceItem>) {
+        adapter = SourceAdapter(sources)
+
+        adapter.setOnItemClickCallback(object : BaseAdapter.OnItemClickCallBack<SourceItem> {
+            override fun onItemClicked(data: SourceItem) {
+                Log.e("SourceFragment", "$data")
+            }
+        })
+
+        recyclerView.adapter = adapter
+    }
 
     companion object {
         const val EXTRA_CATEGORY = "extra_category"
